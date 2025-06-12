@@ -38,6 +38,8 @@ namespace JWTApiMinimal.Controllers
         [HttpDelete]
         [Route("DeleteClient")]
         public dynamic deleteCLient(string id) {
+            var identity = HttpContext.User.Identity;
+
             Microsoft.Extensions.Primitives.StringValues token = Request.Headers.Where(x => x.Key == "Authorization").FirstOrDefault().Value;
 
             return new 
