@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using JWTApiMinimal.Models;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace JWTApiMinimal.Controllers
 {
@@ -38,7 +40,12 @@ namespace JWTApiMinimal.Controllers
         [HttpDelete]
         [Route("DeleteClient")]
         public dynamic deleteCLient(string id) {
-            var identity = HttpContext.User.Identity;
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+
+            var rToken = Jwt.validToken(identity);
+
+            if (!rToken.success) return rToken.result;
+
 
             Microsoft.Extensions.Primitives.StringValues token = Request.Headers.Where(x => x.Key == "Authorization").FirstOrDefault().Value;
 
